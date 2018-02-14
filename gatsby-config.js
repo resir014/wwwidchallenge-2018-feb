@@ -6,7 +6,7 @@ module.exports = {
   siteMetadata: {
     title: 'WWWID-PWA',
     description: 'WWWID reader as a Progressive Web App. Part of #WWWIDChallenge for February 2018.',
-    siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
+    siteUrl: 'https://gracious-morse-0b95f9.netlify.com/',
     author: {
       name: 'Resi Respati',
       url: 'https://twitter.com/resir014',
@@ -49,7 +49,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com'
+        siteUrl: 'https://gracious-morse-0b95f9.netlify.com/'
       }
     },
     'gatsby-plugin-sass',
