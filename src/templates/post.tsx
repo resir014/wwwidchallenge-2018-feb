@@ -50,6 +50,7 @@ export const query = graphql`
     post: mediumPost(id: { eq: $id }) {
       id
       title
+      subtitle
       pubDate
       link
       author

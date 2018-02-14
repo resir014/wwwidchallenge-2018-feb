@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import Img from 'gatsby-image'
 import { dimensions, colors } from '../utils/styles'
 import { ArticleNode } from '../utils/types'
 import MarkdownContent from './MarkdownContent'
@@ -14,7 +15,7 @@ const ArticleHeader = styled.header`
   width: 100%;
 `
 
-const ArticleHeaderImage = styled.img`
+const ArticleHeaderImage = styled(Img)`
   width: 100%;
   max-height: 20rem;
   object-fit: cover;
@@ -62,7 +63,12 @@ const CardMetadataAuthor = styled.p`
 const PostWrapper: React.SFC<PostWrapperProps> = ({ article }) => (
   <PageCard>
     <ArticleHeader>
-      <ArticleHeaderImage src={article.thumbnail} alt={article.title} />
+      {article.headerImage.childImageSharp && (
+        <ArticleHeaderImage
+          sizes={article.headerImage.childImageSharp.sizes}
+          alt=""
+        />
+      )}
       <ArticleTitle>{article.title}</ArticleTitle>
     </ArticleHeader>
     <CardMetadata>
