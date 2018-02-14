@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { colors, widths } from '../utils/styles'
+import { colors, widths, dimensions } from '../utils/styles'
 import { getEmSize } from '../utils/mixins'
 
 interface MarkdownContentProps {
@@ -79,15 +79,15 @@ const StyledMarkdownContent = styled.section`
 
   hr {
     position: relative;
-    margin: 1rem 0;
+    margin: ${dimensions.containerPadding} 0;
     border: 0;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid ${colors.ui.bright};
   }
 
   blockquote {
     margin: .8rem 0;
     padding: .5rem 1rem;
-    border-left: .25rem solid $color-border;
+    border-left: .25rem solid ${colors.ui.bright};
     color: $color-gray-calm;
 
     p {
