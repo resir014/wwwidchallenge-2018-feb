@@ -1,38 +1,53 @@
 import * as React from 'react'
-import Link from 'gatsby-link'
-import styled from 'styled-components'
 
 import Page from '../components/Page'
+import Container from '../components/Container'
 import ArticleGrid from '../components/ArticleGrid'
-import PageCard from '../components/PageCard'
-import { dimensions } from '../utils/styles'
+import ArticleCard from '../components/ArticleCard'
+import { ArticleNode } from '../utils/types'
 
-const PageWrapper = styled(PageCard)`
-  padding: ${dimensions.containerPadding};
-`
+interface IndexPageProps {
+  data: {
+    allMediumPost: {
+      edges: Array<{
+        node: ArticleNode
+      }>
+    }
+  }
+}
 
-const PageTitle = styled.h1`
-  margin: 0;
-  line-height: ${dimensions.lineHeight.heading};
-`
-
-export default () => (
+const IndexPage: React.SFC<IndexPageProps> = ({ data }) => (
   <Page>
-    <ArticleGrid>
-      <PageWrapper>
-        <PageTitle>Welcome to WWWID-PWA</PageTitle>
-        <p>This project was made as part of the{' '}
-          <a
-            href="https://medium.com/p/70bb7431741d"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            #WWWIDChallenge
-          </a>{' '}
-          for February 2018.
-        </p>
-        <Link to="/latest" href="/latest">Show me the latest posts!</Link>
-      </PageWrapper>
-    </ArticleGrid>
+    <Container>
+      <ArticleGrid>
+        {data.allMediumPost.edges.map(({ node }) => (
+          <ArticleCard article={node} />
+        ))}
+      </ArticleGrid>
+    </Container>
   </Page>
 )
+
+export default IndexPage
+
+export const query = graphql`
+  query IndexPageQuery {
+    allMediumPost(sort: {fields: [pubDate], order: DESC}) {
+      edges {
+        node {
+          id
+          title
+          subtitle
+          pubDate
+          author
+          thumbnail
+          description
+          content
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  }
+`
