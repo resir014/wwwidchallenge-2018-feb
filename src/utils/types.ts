@@ -7,6 +7,11 @@ export interface ArticleNode {
   author: string
   categories: string
   thumbnail: string
+  headerImage: {
+    childImageSharp?: {
+      sizes: {[key: string]: any}
+    }
+  }
   description: string
   content: string
   fields: {

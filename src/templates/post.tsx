@@ -54,7 +54,22 @@ export const query = graphql`
       link
       author
       categories
-      thumbnail
+      headerImage {
+        childImageSharp {
+          sizes(maxWidth: 1140) {
+            base64
+            tracedSVG
+            aspectRatio
+            src
+            srcSet
+            srcWebp
+            srcSetWebp
+            sizes
+            originalImg
+            originalName
+          }
+        }
+      }
       description
       content
     }

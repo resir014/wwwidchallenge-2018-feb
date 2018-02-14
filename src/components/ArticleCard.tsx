@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import Link from 'gatsby-link'
+import Img from 'gatsby-image'
 
 import { ArticleNode } from '../utils/types'
 import { colors, dimensions } from '../utils/styles'
@@ -26,7 +27,7 @@ const CardHeader = styled.header`
   width: 100%;
 `
 
-const CardHeaderImage = styled.img`
+const CardHeaderImage = styled(Img)`
   width: 100%;
   max-height: 20rem;
   object-fit: cover;
@@ -72,7 +73,10 @@ const ArticleCard: React.SFC<ArticleCardProps> = ({ className, article }) => (
   <StyledArticleCard className={className}>
     <TouchoverLink to={article.fields.slug}>
     <CardHeader>
-      <CardHeaderImage src={article.thumbnail} alt="" />
+      {article.headerImage.childImageSharp && <CardHeaderImage
+        sizes={article.headerImage.childImageSharp.sizes}
+        alt=""
+      />}
       <CardTitle>{article.title}</CardTitle>
       <CardMetadata>
         <CardMetadataAuthor>{article.author}</CardMetadataAuthor>

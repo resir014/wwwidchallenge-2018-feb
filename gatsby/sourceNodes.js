@@ -3,6 +3,7 @@
 const axios = require('axios')
 const crypto = require('crypto')
 const striptags = require('striptags')
+const { createRemoteFileNode } = require('gatsby-source-filesystem')
 
 const API_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fwwwid'
 
@@ -20,7 +21,7 @@ const generateId = guid => guid.replace(/^https?:\/\//, '').split('/')[2]
  */
 const getSubtitle = desc => desc.split('</p>')[0].replace(/\\n/, '')
 
-module.exports = async ({ boundActionCreators }) => {
+module.exports = async ({ boundActionCreators, getNode, store, cache, createNodeId }) => {
   const { createNode } = boundActionCreators
 
   try {
@@ -28,7 +29,9 @@ module.exports = async ({ boundActionCreators }) => {
     const { data } = response
 
     if (data.status === 'ok') {
-      data.items.map((item) => {
+      const nodes = []
+
+      data.items.forEach((item) => {
         const nodeItem = {
           ...item,
           subtitle: striptags(getSubtitle(item.description))
@@ -49,7 +52,34 @@ module.exports = async ({ boundActionCreators }) => {
           ...nodeItem,
         }
 
-        createNode(node)
+        nodes.push(node)
+      })
+
+      await Promise.all(
+        nodes.map(async (node) => {
+          let fileNode
+
+          if (node.internal.type === 'MediumPost') {
+            try {
+              fileNode = await createRemoteFileNode({
+                url: node.thumbnail,
+                store,
+                cache,
+                createNode
+              })
+            } catch (e) {
+              // ignore
+            }
+
+            if (fileNode) {
+              node.headerImage___NODE = fileNode.id
+            }
+          }
+        })
+      )
+
+      nodes.forEach(n => {
+        createNode(n)
       })
     } else {
       throw new Error('Something went wrong loading the resource.')
