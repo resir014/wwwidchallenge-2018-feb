@@ -37,10 +37,17 @@ export const query = graphql`
         node {
           id
           title
-          subtitle
           pubDate
+          link
           author
-          thumbnail
+          categories
+          headerImage {
+            childImageSharp {
+              sizes(maxWidth: 1140) {
+                ...GatsbyImageSharpSizes
+              }
+            }
+          }
           description
           content
           fields {

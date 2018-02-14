@@ -8,7 +8,7 @@ export interface ArticleNode {
   categories: string
   thumbnail: string
   headerImage: {
-    childImageSharp?: {
+    childImageSharp: {
       sizes: {[key: string]: any}
     }
   }

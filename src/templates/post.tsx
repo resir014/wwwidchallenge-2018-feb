@@ -57,21 +57,15 @@ export const query = graphql`
       headerImage {
         childImageSharp {
           sizes(maxWidth: 1140) {
-            base64
-            tracedSVG
-            aspectRatio
-            src
-            srcSet
-            srcWebp
-            srcSetWebp
-            sizes
-            originalImg
-            originalName
+            ...GatsbyImageSharpSizes
           }
         }
       }
       description
       content
+      fields {
+        slug
+      }
     }
   }
 `

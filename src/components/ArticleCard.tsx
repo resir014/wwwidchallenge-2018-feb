@@ -73,10 +73,10 @@ const ArticleCard: React.SFC<ArticleCardProps> = ({ className, article }) => (
   <StyledArticleCard className={className}>
     <TouchoverLink to={article.fields.slug}>
     <CardHeader>
-      {article.headerImage.childImageSharp && <CardHeaderImage
+      <CardHeaderImage
         sizes={article.headerImage.childImageSharp.sizes}
         alt=""
-      />}
+      />
       <CardTitle>{article.title}</CardTitle>
       <CardMetadata>
         <CardMetadataAuthor>{article.author}</CardMetadataAuthor>
