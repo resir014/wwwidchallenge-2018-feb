@@ -1,9 +1,6 @@
-# wwwidchallenge-2018-feb
-
-> WWWID reader as a Progressive Web App. Part of [#WWWIDChallenge](https://medium.com/wwwid/tantangan-web-developer-untuk-membuat-aplikasi-web-bisa-digunakan-kurang-dari-5-detik-70bb7431741d) for February 2018.
-
-This project is bootstrapped using [gatsby-starter-typescript-plus](https://github.com/resir014/gatsby-starter-typescript-plus).
-
+---
+layout: page
+title: "About this website"
 ---
 
 Hey there!
@@ -16,32 +13,4 @@ I decided to go the [JAMstack](https://jamstack.org/) path using [Gatsby.js](htt
 
 I also use [TypeScript](https://www.typescriptlang.org/), because it's awesome.
 
-## Features
-
-* Basic Gatsby.js + TypeScript setup
-* Progressive Web App
-* Statically generated
-* Image processing with Sharp
-* Styling with `styled-components`.
-
-## Developing
-
-A nodejs >= 6.0.0 setup with [yarn](https://yarnpkg.com/) is recommended.
-
-``` bash
-# install dependencies
-yarn
-
-# ...or if you prefer npm
-npm install
-
-# serve with hot reload at localhost:8000
-yarn start
-
-# build for production
-yarn build
-```
-
-## Credits
-
-Built with [Gatsby](https://www.gatsbyjs.org/) - the blazing-fast static site generator for [React](https://facebook.github.io/react/).
+To view the source code, [click here](https://github.com/resir014/wwwidchallenge-2018-feb).
