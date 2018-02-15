@@ -1,21 +1,15 @@
 import * as React from 'react'
+import Helmet from 'react-helmet'
 
+import { ArticleNode, SiteMetadata } from '../utils/types'
 import Page from '../components/Page'
-import { ArticleNode } from '../utils/types'
 import ArticleGrid from '../components/ArticleGrid'
 import PostWrapper from '../components/PostWrapper'
 
 interface PostTemplateProps {
   data: {
     site: {
-      siteMetadata: {
-        title: string
-        description: string
-        author: {
-          name: string
-          url: string
-        }
-      }
+      siteMetadata: SiteMetadata
     }
     post: ArticleNode
   }
@@ -27,6 +21,27 @@ interface PostTemplateProps {
 
 const PostTemplate: React.SFC<PostTemplateProps> = ({ data }) => (
   <Page>
+    <Helmet>
+      <title>{data.post.title} &middot; {data.site.siteMetadata.title}</title>
+      <meta name="description" content={data.post.subtitle || data.site.siteMetadata.description} />
+      <meta property="og:title" content={data.post.title} />
+      <meta
+        property="og:description"
+        content={data.post.subtitle || data.site.siteMetadata.description}
+      />
+      <meta
+        property="og:type"
+        content="article"
+      />
+      <meta
+        property="og:article:author"
+        content={data.post.author}
+      />
+      <meta
+        property="og:article:published_time"
+        content={data.post.pubDate}
+      />
+    </Helmet>
     <ArticleGrid>
       <PostWrapper article={data.post} />
     </ArticleGrid>

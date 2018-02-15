@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Helmet from 'react-helmet'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
 
@@ -6,6 +7,15 @@ import Page from '../components/Page'
 import ArticleGrid from '../components/ArticleGrid'
 import PageCard from '../components/PageCard'
 import { dimensions, colors } from '../utils/styles'
+import { SiteMetadata } from '../utils/types'
+
+interface NotFoundPageProps {
+  data: {
+    site: {
+      siteMetadata: SiteMetadata
+    }
+  }
+}
 
 const PageHeader = styled.header`
   padding: ${dimensions.containerPadding};
@@ -47,8 +57,14 @@ const PageContent = styled.section`
   }
 `
 
-const NotFoundPage = () => (
+const NotFoundPage: React.SFC<NotFoundPageProps> = ({ data }) => (
   <Page>
+    <Helmet>
+      <title>404: Page not found. &middot; {data.site.siteMetadata.title}</title>
+      <meta name="description" content={data.site.siteMetadata.description} />
+      <meta property="og:title" content="404: Page not found." />
+      <meta property="og:description" content={data.site.siteMetadata.description} />
+    </Helmet>
     <ArticleGrid>
       <PageCard>
         <PageHeader>
@@ -63,3 +79,18 @@ const NotFoundPage = () => (
 )
 
 export default NotFoundPage
+
+export const query = graphql`
+  query NotFoundPageQuery {
+    site {
+      siteMetadata {
+        title
+        description
+        author {
+          name
+          url
+        }
+      }
+    }
+  }
+`

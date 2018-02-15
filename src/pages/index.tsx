@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Helmet from 'react-helmet'
 
 import Page from '../components/Page'
 import Container from '../components/Container'
@@ -7,10 +8,13 @@ import ArticleGridHeader from '../components/ArticleGridHeader'
 import ArticleCard from '../components/ArticleCard'
 import CategoryGrid from '../components/CategoryGrid'
 import CategoryItem from '../components/CategoryItem'
-import { ArticleNode } from '../utils/types'
+import { ArticleNode, SiteMetadata } from '../utils/types'
 
 interface IndexPageProps {
   data: {
+    site: {
+      siteMetadata: SiteMetadata
+    }
     allMediumCategory: {
       edges: Array<{
         node: {
@@ -32,6 +36,12 @@ interface IndexPageProps {
 
 const IndexPage: React.SFC<IndexPageProps> = ({ data }) => (
   <Page>
+    <Helmet>
+      <title>{data.site.siteMetadata.title}</title>
+      <meta name="description" content={data.site.siteMetadata.description} />
+      <meta property="og:title" content="Home" />
+      <meta property="og:description" content={data.site.siteMetadata.description} />
+    </Helmet>
     <Container>
       <ArticleGrid>
         <ArticleGridHeader>
@@ -59,6 +69,16 @@ export default IndexPage
 
 export const query = graphql`
   query IndexPageQuery {
+    site {
+      siteMetadata {
+        title
+        description
+        author {
+          name
+          url
+        }
+      }
+    }
     allMediumCategory {
       edges {
         node {

@@ -1,14 +1,18 @@
 import * as React from 'react'
+import Helmet from 'react-helmet'
 
 import Page from '../components/Page'
 import Container from '../components/Container'
 import ArticleGrid from '../components/ArticleGrid'
 import ArticleGridHeader from '../components/ArticleGridHeader'
 import ArticleCard from '../components/ArticleCard'
-import { ArticleNode } from '../utils/types'
+import { ArticleNode, SiteMetadata } from '../utils/types'
 
 interface CategoryTemplateProps {
   data: {
+    site: {
+      siteMetadata: SiteMetadata
+    }
     mediumCategory: {
       id: string
       name: string
@@ -23,6 +27,16 @@ interface CategoryTemplateProps {
 
 const CategoryTemplate: React.SFC<CategoryTemplateProps> = ({ data }) => (
   <Page>
+    <Helmet>
+      <title>
+        {data.mediumCategory.name}{' '}
+        &middot; Kategori &middot;{' '}
+        {data.site.siteMetadata.title}
+      </title>
+      <meta name="description" content={data.site.siteMetadata.description} />
+      <meta property="og:title" content={`${data.mediumCategory.name} · Kategori`} />
+      <meta property="description" content={data.site.siteMetadata.description} />
+    </Helmet>
     <Container>
       <ArticleGrid>
         <ArticleGridHeader>
@@ -40,6 +54,16 @@ export default CategoryTemplate
 
 export const query = graphql`
   query CategoryPageQuery($name: String!) {
+    site {
+      siteMetadata {
+        title
+        description
+        author {
+          name
+          url
+        }
+      }
+    }
     mediumCategory(name: {eq: $name}) {
       id
       name
