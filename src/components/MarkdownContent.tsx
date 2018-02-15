@@ -16,6 +16,10 @@ const StyledMarkdownContent = styled.section`
     &:hover, &:focus {
       border-bottom-color: ${colors.brand};
     }
+
+    strong {
+      font-weight: 700;
+    }
   }
 
   img {
@@ -34,6 +38,10 @@ const StyledMarkdownContent = styled.section`
     font-weight: 600;
     line-height: 1.25;
     text-rendering: optimizeLegibility;
+
+    strong {
+      font-weight: 700;
+    }
   }
 
   h1 {
