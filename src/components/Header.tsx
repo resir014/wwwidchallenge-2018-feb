@@ -30,6 +30,8 @@ const HeaderLink = styled(Link)`
 `
 
 const Navigation = styled.nav`
+  display: flex;
+  flex-direction: row;
   height: 100%;
 `
 
@@ -37,7 +39,12 @@ const NavigationLink = styled(Link)`
   display: flex;
   align-items: center;
   height: 100%;
+  padding: 0 1rem;
   color: #fff;
+
+  &:last-of-type {
+    padding-right: 0;
+  }
 `
 
 const Header: React.SFC<HeaderProps> = ({ title }) => (
@@ -45,6 +52,7 @@ const Header: React.SFC<HeaderProps> = ({ title }) => (
     <Inner>
       <HeaderLink to="/" href="/">{title}</HeaderLink>
       <Navigation>
+        <NavigationLink to="/categories" href="/categories">Categories</NavigationLink>
         <NavigationLink to="/about" href="/about">About</NavigationLink>
       </Navigation>
     </Inner>
