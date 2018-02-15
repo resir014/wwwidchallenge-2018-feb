@@ -19,6 +19,7 @@ const Inner = styled(Container)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   height: 100%;
 `
 
@@ -28,10 +29,24 @@ const HeaderLink = styled(Link)`
   font-weight: 600;
 `
 
+const Navigation = styled.nav`
+  height: 100%;
+`
+
+const NavigationLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #fff;
+`
+
 const Header: React.SFC<HeaderProps> = ({ title }) => (
   <StyledHeader>
     <Inner>
       <HeaderLink to="/" href="/">{title}</HeaderLink>
+      <Navigation>
+        <NavigationLink to="/about" href="/about">About</NavigationLink>
+      </Navigation>
     </Inner>
   </StyledHeader>
 )

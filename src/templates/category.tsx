@@ -5,22 +5,13 @@ import Container from '../components/Container'
 import ArticleGrid from '../components/ArticleGrid'
 import ArticleGridHeader from '../components/ArticleGridHeader'
 import ArticleCard from '../components/ArticleCard'
-import CategoryGrid from '../components/CategoryGrid'
-import CategoryItem from '../components/CategoryItem'
 import { ArticleNode } from '../utils/types'
 
-interface IndexPageProps {
+interface CategoryTemplateProps {
   data: {
-    allMediumCategory: {
-      edges: Array<{
-        node: {
-          id: string
-          name: string
-          fields: {
-            slug: string
-          }
-        }
-      }>
+    mediumCategory: {
+      id: string
+      name: string
     }
     allMediumPost: {
       edges: Array<{
@@ -30,22 +21,12 @@ interface IndexPageProps {
   }
 }
 
-const IndexPage: React.SFC<IndexPageProps> = ({ data }) => (
+const CategoryTemplate: React.SFC<CategoryTemplateProps> = ({ data }) => (
   <Page>
     <Container>
       <ArticleGrid>
         <ArticleGridHeader>
-          <h1>Feed Reader</h1>
-          <h2>Filter berdasarkan kategori</h2>
-          <CategoryGrid>
-          {data.allMediumCategory.edges.map(({ node }) => (
-            <CategoryItem
-              key={node.id}
-              name={node.name}
-              slug={node.fields.slug}
-            />
-          ))}
-          </CategoryGrid>
+          <h1>Kategori: {data.mediumCategory.name}</h1>
         </ArticleGridHeader>
         {data.allMediumPost.edges.map(({ node }) => (
           <ArticleCard article={node} />
@@ -55,22 +36,15 @@ const IndexPage: React.SFC<IndexPageProps> = ({ data }) => (
   </Page>
 )
 
-export default IndexPage
+export default CategoryTemplate
 
 export const query = graphql`
-  query IndexPageQuery {
-    allMediumCategory {
-      edges {
-        node {
-          id
-          name
-          fields {
-            slug
-          }
-        }
-      }
+  query CategoryPageQuery($name: String!) {
+    mediumCategory(name: {eq: $name}) {
+      id
+      name
     }
-    allMediumPost(sort: {fields: [pubDate], order: DESC}) {
+    allMediumPost(sort: {fields: [pubDate], order: DESC}, filter: {categories: {eq: $name}}) {
       edges {
         node {
           id

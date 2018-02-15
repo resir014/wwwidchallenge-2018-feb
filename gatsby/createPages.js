@@ -53,6 +53,9 @@ module.exports = async ({ graphql, boundActionCreators }) => {
         edges {
           node {
             id
+            fields {
+              slug
+            }
           }
         }
       }
@@ -65,9 +68,8 @@ module.exports = async ({ graphql, boundActionCreators }) => {
   }
 
   allFeedEntry.data.allMediumPost.edges.forEach(({ node }) => {
-    const { id } = node
-
-    const slug = `/p/${id}`
+    const { id, fields } = node
+    const { slug } = fields
 
     createPage({
       path: slug,
@@ -85,6 +87,52 @@ module.exports = async ({ graphql, boundActionCreators }) => {
         // Data passed to context is available in page queries as GraphQL variables.
         id,
         slug: slug
+      }
+    })
+  })
+
+  const allCategory = await graphql(`
+    {
+      allMediumCategory {
+        edges {
+          node {
+            id
+            name
+            fields {
+              slug
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if (allCategory.errors) {
+    console.error(allCategory.errors)
+    throw new Error(allCategory.errors)
+  }
+
+  allCategory.data.allMediumCategory.edges.forEach(({ node }) => {
+    const { id, name, fields } = node
+    const { slug } = fields
+
+    createPage({
+      path: slug,
+      // This will automatically resolve the template to a corresponding
+      // `layout` frontmatter in the Markdown.
+      //
+      // Feel free to set any `layout` as you'd like in the frontmatter, as
+      // long as the corresponding template file exists in src/templates.
+      // If no template is set, it will fall back to the default `page`
+      // template.
+      //
+      // Note that the template has to exist first, or else the build will fail.
+      component: path.resolve(`./src/templates/category.tsx`),
+      context: {
+        // Data passed to context is available in page queries as GraphQL variables.
+        id,
+        name,
+        slug
       }
     })
   })

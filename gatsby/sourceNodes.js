@@ -30,6 +30,7 @@ module.exports = async ({ boundActionCreators, getNode, store, cache, createNode
 
     if (data.status === 'ok') {
       const nodes = []
+      const categoryMap = []
 
       data.items.forEach((item) => {
         const nodeItem = {
@@ -53,6 +54,8 @@ module.exports = async ({ boundActionCreators, getNode, store, cache, createNode
         }
 
         nodes.push(node)
+
+        item.categories.forEach(category => categoryMap.push(category))
       })
 
       await Promise.all(
@@ -77,6 +80,31 @@ module.exports = async ({ boundActionCreators, getNode, store, cache, createNode
           }
         })
       )
+
+      const categories = [...new Set(categoryMap)]
+
+      categories.forEach(cat => {
+        const nodeItem = {
+          name: cat
+        }
+
+        const digest = crypto.createHash('md5')
+          .update(JSON.stringify(nodeItem))
+          .digest('hex')
+
+        const node = {
+          id: crypto.randomBytes(10).toString('hex'),
+          parent: '__SOURCE__',
+          children: [],
+          internal: {
+            type: 'MediumCategory',
+            contentDigest: digest
+          },
+          ...nodeItem,
+        }
+
+        createNode(node)
+      })
 
       nodes.forEach(n => {
         createNode(n)

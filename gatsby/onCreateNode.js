@@ -49,5 +49,19 @@ module.exports = ({ node, boundActionCreators, getNode }) => {
 
       break
     }
+    case 'MediumCategory': {
+      const { id, name } = node
+
+      const slug = `/cat/${name}`
+
+      // Used to generate URL to view this content.
+      createNodeField({
+        node,
+        name: 'slug',
+        value: slug
+      })
+
+      break
+    }
   }
 }
